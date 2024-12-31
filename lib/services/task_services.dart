@@ -2,64 +2,76 @@ import 'package:demo_task_manager/model/task_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class TaskService {
-  static const String tableName = 'tasks';
+class DatabaseHelper {
+  static const _databaseName = 'tasks.db';
+  static const _databaseVersion = 1;
+  static const table = 'tasks';
 
-  late Database _db;
+  // Singleton pattern
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+  static Database? _database;
 
-  // Initialize the database
-  Future<void> initDatabase() async {
+  DatabaseHelper._privateConstructor();
+
+  Future<Database> get database async {
+    _database ??= await _initDatabase();
+    return _database!;
+  }
+
+  Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'tasks.db');
-    _db = await openDatabase(path, version: 1, onCreate: _createDb);
+    return openDatabase(
+      join(dbPath, _databaseName),
+      version: _databaseVersion,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE $table (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            description TEXT,
+            reminderTime TEXT,
+            category TEXT
+          )
+        ''');
+      },
+    );
   }
 
-  // Create the tasks table if not exists
-  Future<void> _createDb(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE $tableName (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        description TEXT,
-        isCompleted INTEGER
-      )
-    ''');
+  // CRUD Operations
+
+  // Insert Task
+  Future<int> insertTask(Task task) async {
+    Database db = await instance.database;
+    return await db.insert(table, task.toMap());
   }
 
-  // Fetch all tasks
-  Future<List<TaskModel>> getTasks() async {
-    final List<Map<String, dynamic>> taskMaps = await _db.query(tableName);
-    return List.generate(taskMaps.length, (index) {
-      return TaskModel.fromMap(taskMaps[index]);
+  // Get all Tasks
+  Future<List<Task>> getAllTasks() async {
+    Database db = await instance.database;
+    final List<Map<String, dynamic>> maps = await db.query(table);
+    return List.generate(maps.length, (i) {
+      return Task.fromMap(maps[i]);
     });
   }
 
-  // Insert a new task
-  Future<void> insertTask(TaskModel task) async {
-    await _db.insert(tableName, task.toMap());
-  }
-
-  // Update an existing task
-  Future<void> updateTask(TaskModel task) async {
-    await _db.update(
-      tableName,
+  // Update Task
+  Future<int> updateTask(Task task) async {
+    Database db = await instance.database;
+    return await db.update(
+      table,
       task.toMap(),
       where: 'id = ?',
       whereArgs: [task.id],
     );
   }
 
-  // Delete a task
-  Future<void> deleteTask(int id) async {
-    await _db.delete(
-      tableName,
+  // Delete Task
+  Future<int> deleteTask(int id) async {
+    Database db = await instance.database;
+    return await db.delete(
+      table,
       where: 'id = ?',
       whereArgs: [id],
     );
-  }
-
-  // Close the database
-  Future<void> close() async {
-    await _db.close();
   }
 }

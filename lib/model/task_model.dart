@@ -1,32 +1,37 @@
-class TaskModel {
+class Task {
   final int? id;
   final String title;
   final String description;
-  final bool isCompleted;
+  final DateTime reminderTime;
+  final String category;
 
-  TaskModel({
+  Task({
     this.id,
     required this.title,
     required this.description,
-    this.isCompleted = false,
+    required this.reminderTime,
+    required this.category,
   });
 
-  // Convert a TaskModel object to a map for SQLite
+  // Convert Task to Map for SQLite operations
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'title': title,
       'description': description,
-      'isCompleted': isCompleted ? 1 : 0,
+      'reminderTime': reminderTime.toIso8601String(),
+      'category': category,
     };
   }
 
-  // Convert a map to a TaskModel object
-  factory TaskModel.fromMap(Map<String, dynamic> map) {
-    return TaskModel(
+  // Convert Map to Task (for fetching from DB)
+  factory Task.fromMap(Map<String, dynamic> map) {
+    return Task(
       id: map['id'],
       title: map['title'],
       description: map['description'],
-      isCompleted: map['isCompleted'] == 1,
+      reminderTime: DateTime.parse(map['reminderTime']),
+      category: map['category'],
     );
   }
 }

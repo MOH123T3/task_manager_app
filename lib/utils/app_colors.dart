@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color blueColor = Colors.blueAccent;
-
-  static const Color whiteColor = Colors.white;
+  static Color whiteColor = Colors.white;
+  static Color blackColor = Colors.black;
+  static const Color lightBlueColor = Color.fromARGB(255, 156, 192, 255);
 }

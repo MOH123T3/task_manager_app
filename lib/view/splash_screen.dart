@@ -1,5 +1,4 @@
 import 'package:demo_task_manager/routes/name_routes.dart';
-import 'package:demo_task_manager/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Icon(
           Icons.task_alt_outlined,
           size: 50,
-          color: AppColors.blueColor,
         ),
       ),
     );
