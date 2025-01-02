@@ -1,4 +1,4 @@
-# demo_task_manager
+# task_manager
 
 A new Flutter project.
 
