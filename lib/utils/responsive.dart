@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Todo  Responsive ui for multiple devices
 class Responsive extends StatelessWidget {
   final Widget mobile;
   final Widget tablet;
@@ -11,8 +12,6 @@ class Responsive extends StatelessWidget {
     required this.tablet,
     this.desktop,
   });
-
-// This size work fine on my design, maybe you need some customization depends on your design
 
   // This isMobile, isTablet, isDesktop help us later
   static bool isMobile(BuildContext context) =>
@@ -30,7 +29,8 @@ class Responsive extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     // If our width is more than 1024 then we consider it a desktop
     if (size.width >= 1024) {
-      return desktop!;
+      // return desktop!;
+      return tablet;
     }
     // If width it less then 1024 and more then 600  we consider it as tablet
     else if (size.width >= 600) {

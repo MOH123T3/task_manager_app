@@ -1,4 +1,4 @@
-import 'package:demo_task_manager/model/task_model.dart';
+import 'package:task_manager/model/task_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -30,7 +30,8 @@ class DatabaseHelper {
             title TEXT,
             description TEXT,
             reminderTime TEXT,
-            category TEXT
+            category TEXT,
+            status TEXT
           )
         ''');
       },

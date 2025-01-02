@@ -1,10 +1,9 @@
-import 'package:demo_task_manager/routes/name_routes.dart';
-import 'package:demo_task_manager/services/notification_services.dart';
-import 'package:demo_task_manager/utils/app_theme.dart';
-import 'package:demo_task_manager/utils/constant.dart';
-import 'package:demo_task_manager/view/splash_screen.dart';
+import 'package:task_manager/routes/name_routes.dart';
+import 'package:task_manager/services/notification_services.dart';
+import 'package:task_manager/utils/app_theme.dart';
+import 'package:task_manager/utils/constant.dart';
+import 'package:task_manager/view/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'routes/routes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -12,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 Future<void> main() async {
   //Todo Notification services initialization
+
   WidgetsFlutterBinding.ensureInitialized();
 
   //Todo Permission handle for Notification

@@ -2,15 +2,17 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Top-level function for handling background notifications
 void backgroundNotificationResponseHandler(
-    NotificationResponse notification) async {
-  print('Received background notification response: $notification');
-}
+    NotificationResponse notification) async {}
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin notificationPlugin =
+//Todo Initlize FlutterLocalNotificationsPlugin
+
+  static final FlutterLocalNotificationsPlugin notificationPlugin =
       FlutterLocalNotificationsPlugin();
 
+//Todo Initlize notification
   Future<void> initNotification() async {
+    //Todo Defind Andriod initlize notification
     const AndroidInitializationSettings initializationAndroidSettings =
         AndroidInitializationSettings('logo');
 
@@ -21,11 +23,9 @@ class NotificationService {
       defaultPresentAlert: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
-      onDidReceiveLocalNotification: (id, title, body, payload) async {
-        print('Received local notification: $id, $title, $body, $payload');
-      },
+      onDidReceiveLocalNotification: (id, title, body, payload) async {},
     );
-
+//Todo initlize both platform settings
     final InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationAndroidSettings,
@@ -39,13 +39,13 @@ class NotificationService {
     );
   }
 
+//Todo Calling Notification Dialog
   Future<void> showNotification({
     int id = 0,
     String? title,
     String? body,
     String? payload,
   }) async {
-    print('Showing notification: $id, $title, $body, $payload');
     await notificationPlugin.show(
       id,
       title,
@@ -55,6 +55,7 @@ class NotificationService {
     );
   }
 
+//Todo given notification Details
   Future<NotificationDetails> notificationDetails() async {
     return const NotificationDetails(
       iOS: DarwinNotificationDetails(),

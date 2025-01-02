@@ -1,24 +1,16 @@
-import 'package:demo_task_manager/model/task_model.dart';
-import 'package:demo_task_manager/services/notification_services.dart';
-import 'package:demo_task_manager/utils/app_colors.dart';
-import 'package:demo_task_manager/utils/app_strings.dart';
-import 'package:demo_task_manager/utils/app_styles.dart';
-import 'package:demo_task_manager/utils/responsive.dart';
-import 'package:demo_task_manager/view/home/add_task_screen.dart';
-import 'package:demo_task_manager/view/home/drawer_screen.dart';
-import 'package:demo_task_manager/view/home/edit_task.dart';
-import 'package:demo_task_manager/view/home/task_list.dart';
-import 'package:demo_task_manager/view_model/task_view_model.dart';
+import 'package:task_manager/utils/app_colors.dart';
+import 'package:task_manager/utils/app_strings.dart';
+import 'package:task_manager/utils/constant.dart';
+import 'package:task_manager/view/task_management/add_task_screen.dart';
+import 'package:task_manager/view/home/drawer_screen.dart';
+import 'package:task_manager/view/task_management/task_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppColors.lightBlue,
       appBar: AppBar(
         leading: Builder(
           builder: (context) {
@@ -30,60 +22,51 @@ class HomeScreen extends StatelessWidget {
             );
           },
         ),
-      ),
-
-      body: TaskListPage(),
-      floatingActionButton: floatingButton(context),
-      drawer: const DrawerScreen(),
-    );
-  }
-
-  card() {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(9),
-        // color: AppColors.whiteColor
-      ),
-      child: const Column(
-        children: [
-          Row(
-            children: [Icon(Icons.task), Text("data")],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text("This is task for demo"),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text("Date"), Icon(Icons.date_range)],
+        actions: [
+          InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const AddTaskScreen();
+                },
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 15),
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  color: Constant.isDark
+                      ? AppColors.lightCardBackground
+                      : AppColors.darkCardBackground,
+                  borderRadius: BorderRadius.circular(9)),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.add_task,
+                    size: 18,
+                    color: Constant.isDark
+                        ? AppColors.lightPrimaryText
+                        : AppColors.darkPrimaryText,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(AppStrings.addTask,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300,
+                          color: Constant.isDark
+                              ? AppColors.lightPrimaryText
+                              : AppColors.darkPrimaryText)),
+                ],
+              ),
+            ),
           )
         ],
       ),
+      body: TaskListPage(),
+      drawer: const DrawerScreen(),
     );
-  }
-
-  floatingButton(context) {
-    return FloatingActionButton.extended(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const AddTaskScreen();
-            },
-          );
-        },
-        label: const Text(
-          AppStrings.addTask,
-          style: AppStyles.leadingTextStyle,
-        ),
-        icon: const Icon(
-          Icons.add_task,
-          size: 18,
-        ));
   }
 }

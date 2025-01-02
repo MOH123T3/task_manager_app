@@ -1,12 +1,15 @@
+import 'package:task_manager/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
+//Todo Theme data for application
 ThemeData getAppTheme(BuildContext context, bool isDarkTheme) {
   return ThemeData(
-    scaffoldBackgroundColor: isDarkTheme ? Colors.black : Colors.white,
-    // textTheme: isDarkTheme
-    //     ? Typography(platform: TargetPlatform.android).white
-    //     : Typography(platform: TargetPlatform.android).black,
-    cardTheme: CardTheme(color: isDarkTheme ? Colors.white : Colors.black54),
+    scaffoldBackgroundColor:
+        isDarkTheme ? AppColors.darkBackground : AppColors.lightBackground,
+    cardTheme: CardTheme(
+        color: isDarkTheme
+            ? AppColors.lightCardBackground
+            : AppColors.darkCardBackground),
     switchTheme: SwitchThemeData(
       thumbColor:
           WidgetStateProperty.all(isDarkTheme ? Colors.white : Colors.black),
@@ -15,7 +18,9 @@ ThemeData getAppTheme(BuildContext context, bool isDarkTheme) {
         ListTileThemeData(iconColor: isDarkTheme ? Colors.white : Colors.black),
     appBarTheme: AppBarTheme(
         backgroundColor: isDarkTheme ? Colors.black : Colors.white,
-        iconTheme:
-            IconThemeData(color: isDarkTheme ? Colors.white : Colors.black54)),
+        iconTheme: IconThemeData(
+            color: isDarkTheme
+                ? AppColors.lightAccentColor
+                : AppColors.darkAccentColor)),
   );
 }
